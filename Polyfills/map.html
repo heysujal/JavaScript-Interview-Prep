@@ -10,8 +10,8 @@
         Array.prototype.myMap = function(cb) {
             let res = []
             let arr = this;
-            for (const x of arr){
-                res.push(cb(x))
+            for (let i = 0; i < arr.length; i++){
+                res.push(cb(arr[i], i, arr))
             }
             return res
         }
@@ -29,8 +29,8 @@
         Array.prototype.myReduce = function(accumulatorFn, init) {
             let res = init
             let arr = this;
-            for (const x of arr){
-                res = accumulatorFn(res, x)
+            for (let i = 0; i < arr.length; i++){
+                res = accumulatorFn(res, arr[i])
             }
             return res
         }
@@ -40,9 +40,9 @@
         Array.prototype.myFilter = function(booleanCallback) {
             let res = []
             let arr = this;
-            for (const x of arr){
-                if(booleanCallback(x)){
-                    res.push(x)
+            for (let i = 0; i < arr.length; i++){
+                if(booleanCallback(arr[i], i, arr)){
+                    res.push(arr[i])
                 }
             }
             return res
@@ -57,6 +57,15 @@
         console.log(numbers.myReduce(sumAcculmulator, 0))
         console.log(numbers.myReduce(prodAcculmulator, 1))
         console.log(numbers.myFilter(isOdd))
+
+
+
+    var x = 21;
+    var fun = function () {
+        console. log(x); 
+        var x = 20;
+    } ;
+    fun ();
 
     </script>
 </body>
