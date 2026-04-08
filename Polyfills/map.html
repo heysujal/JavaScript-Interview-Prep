@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Array.prototype.myMap = function(cb) {
+            let res = []
+            let arr = this;
+            for (const x of arr){
+                res.push(cb(x))
+            }
+            return res
+        }
+
+
+        const sumAcculmulator = (acc, curr) => {
+            acc += curr
+            return acc
+        }
+        const prodAcculmulator = (acc, curr) => {
+            acc *= curr
+            return acc
+        }
+
+        Array.prototype.myReduce = function(accumulatorFn, init) {
+            let res = init
+            let arr = this;
+            for (const x of arr){
+                res = accumulatorFn(res, x)
+            }
+            return res
+        }
+
+
+        const isOdd = x => x % 2 != 0
+        Array.prototype.myFilter = function(booleanCallback) {
+            let res = []
+            let arr = this;
+            for (const x of arr){
+                if(booleanCallback(x)){
+                    res.push(x)
+                }
+            }
+            return res
+        }
+
+        const cb = (x) => x * 2;
+
+        let numbers = [1, 2, 3, 4, 5 ]
+
+        console.log(numbers)
+        console.log(numbers.myMap(cb))
+        console.log(numbers.myReduce(sumAcculmulator, 0))
+        console.log(numbers.myReduce(prodAcculmulator, 1))
+        console.log(numbers.myFilter(isOdd))
+
+    </script>
+</body>
+</html>
