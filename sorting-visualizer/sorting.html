@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+</head>
+<body>
+    <h1>Sorting Visualizer</h1>
+    <!-- <button onclick="reset()">Reset</button>
+    <button onclick="play()">Play</button>
+
+    <button onclick="pause()">Pause</button> -->
+
+
+    <div id="container"></div>
+
+    <script>
+        let isPaused = false;
+        let playerId = null;
+
+        // function reset(){
+        //     clearTimeout(playerId)
+        // }
+        // function pause(){
+        //     isPaused = true;
+        // }
+        // function play(){
+        //     isPaused = false;
+        //     // let playerId = setTimeout(() => {
+        //     //     createAndEmbedd();
+        //     // }, 0)
+        // }
+        function generateRandomArray (n = 10){
+            let arr = [];
+            for(let i = 0; i < n; i++){
+                const randomNumber = Math.floor(Math.random() * 20) + 1;
+                arr.push(randomNumber);
+            }
+            return arr;
+        }
+        let arr = generateRandomArray();
+        function createAndEmbedd (nums, activeIndex = null, minIndex = null){
+            let para = document.createElement('p');
+            let container = document.querySelector('#container');
+            container.innerHTML = ''
+            let bars = [];
+            nums.map((x, i) => {
+                let bar = document.createElement('div')
+                bar.style.height = `${x * 30}px`
+                bar.style.width = `${1 * 30}px`
+                bar.style.background = 'red'
+                bar.style.display = 'inline-block'
+                bar.style.margin = '10px'
+                if(activeIndex !== null && activeIndex === i){
+                    bar.style.background = 'yellow'
+                }
+                if(minIndex !== null && minIndex === i){
+                    bar.style.background = 'blue'
+                }
+                bars.push(bar)
+            })
+            bars.forEach(b => {
+                container.append(b);
+            })
+        }
+
+        const sleep = () => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                        resolve()
+                }, 1000);
+            })
+        }
+
+        createAndEmbedd(arr)
+
+        async function sorting(arr){
+            let n = arr.length;
+            for(let i = 0; i < n-1; i++){
+                let smallest = i;
+                for(let j = i + 1; j < n; j++){
+                    if(arr[smallest] > arr[j]){
+                        smallest = j;
+                    }
+                }
+                createAndEmbedd(arr, i, smallest)
+                await sleep();
+                let t = arr[i];
+                arr[i] = arr[smallest];;
+                arr[smallest] = t
+                createAndEmbedd(arr, i, smallest)
+                await sleep();
+            }
+        }
+        sorting(arr) 
+
+        
+
+    </script>
+</body>
+</html>
