@@ -67,6 +67,34 @@
     } ;
     fun ();
 
+
+
+    // Polyfill of Call
+
+    console.log("Call Polyfill")
+    let person = {
+        fullName: "shadows123"
+    }
+
+    Function.prototype.myCall = function (context = {}, ...args) {
+        if(typeof this !== 'function'){
+            throw new Error("Not callable")
+        }
+        context.fn = this;
+        context.fn(...args)
+        
+    }
+
+    function greet(){
+        console.log(this)
+        console.log(`Hello My name is ${this.fullName}`)
+    }
+
+    greet()
+    greet.myCall(person)
+
+
+
     </script>
 </body>
 </html>
