@@ -9,7 +9,7 @@
 //   "tags.1": "frontend",
 //   "meta": null
 // }
-const target = {
+let target = {
   id: 1,
   user: {
     name: "Sujal",
@@ -22,7 +22,33 @@ const target = {
   meta: null
 };
 
-
+ target = {
+  id: 1,
+  user: {
+    name: "Sujal",
+    address: {
+      city: "Delhi",
+      coords: [28.61, 77.23],
+      history: [
+        { year: 2020, city: "Mumbai" },
+        { year: 2021, city: "Bangalore" }
+      ]
+    }
+  },
+  tags: ["dev", "frontend"],
+  projects: [
+    {
+      name: "Tracker",
+      tech: ["React", "Node"]
+    },
+    {
+      name: "Portfolio",
+      tech: []
+    }
+  ],
+  isActive: true,
+  meta: null
+};
 
 
 function helper(obj, path = "", res){
@@ -32,31 +58,22 @@ function helper(obj, path = "", res){
         res[path] = obj;
         return;
     }
+    // Check for array
     if(Array.isArray(obj)){
-        for(let i=0; i < obj.length; i++){
-            let temp = path;
-            if(path !== ""){
-                path = `${path}.${i}`;
-            }else{
-                path = `${i}`
-            }
-            helper(obj[i], path, res);
-            path = temp;
-        }
+        obj.forEach((item, i) => {
+            const newPath = path ? `${path}.${i}` : i;
+            helper(item, newPath, res);
+        })
     }
-    else if(obj !== null && typeof obj === "object"){
+    // Check for object
+    else if(typeof obj === "object"){
         Object.entries(obj).forEach(([key, value]) => {
-            let temp = path;
-            if(path !== ""){
-                path = `${path}.${key}`;
-            }else{
-                path = `${key}`
-            }
-            helper(value, path, res);
-            path = temp;
+            const newPath = path ? `${path}.${key}` : key;
+            helper(value, newPath, res);
         });
     }
 }
+
 function flatten(obj){
     let result = {};
     helper(obj, "", result);
