@@ -15,40 +15,47 @@ let target = {
     name: "Sujal",
     address: {
       city: "Delhi",
-      coords: [28.61, 77.23]
+      coords: [28.61, 77.23],
+      pincode: [], // edge case
+      money: { // edge case
+      }
     }
   },
   tags: ["dev", "frontend"],
+  age: undefined,
   meta: null
 };
 
- target = {
-  id: 1,
-  user: {
-    name: "Sujal",
-    address: {
-      city: "Delhi",
-      coords: [28.61, 77.23],
-      history: [
-        { year: 2020, city: "Mumbai" },
-        { year: 2021, city: "Bangalore" }
-      ]
-    }
-  },
-  tags: ["dev", "frontend"],
-  projects: [
-    {
-      name: "Tracker",
-      tech: ["React", "Node"]
-    },
-    {
-      name: "Portfolio",
-      tech: []
-    }
-  ],
-  isActive: true,
-  meta: null
-};
+
+
+
+// target = {
+//   id: 1,
+//   user: {
+//     name: "Sujal",
+//     address: {
+//       city: "Delhi",
+//       coords: [28.61, 77.23],
+//       history: [
+//         { year: 2020, city: "Mumbai" },
+//         { year: 2021, city: "Bangalore" }
+//       ]
+//     }
+//   },
+//   tags: ["dev", "frontend"],
+//   projects: [
+//     {
+//       name: "Tracker",
+//       tech: ["React", "Node"]
+//     },
+//     {
+//       name: "Portfolio",
+//       tech: []
+//     }
+//   ],
+//   isActive: true,
+//   meta: null
+// };
 
 
 function helper(obj, path = "", res){
@@ -61,14 +68,14 @@ function helper(obj, path = "", res){
     // Check for array
     if(Array.isArray(obj)){
         obj.forEach((item, i) => {
-            const newPath = path ? `${path}.${i}` : i;
+            const newPath = path ? `${path}.${i}` : `${i}`;
             helper(item, newPath, res);
         })
     }
     // Check for object
     else if(typeof obj === "object"){
         Object.entries(obj).forEach(([key, value]) => {
-            const newPath = path ? `${path}.${key}` : key;
+            const newPath = path ? `${path}.${key}` : `${key}`;
             helper(value, newPath, res);
         });
     }
