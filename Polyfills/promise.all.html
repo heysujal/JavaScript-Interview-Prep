@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        Edge case
+        <p>
+            Empty Promise array
+
+        </p>
+        <p>
+            Promise array containing non-promises
+
+        </p> 
+
+ 
+      
+    <script>
+        //
+        // Promise.all([p1, p2, p3]).then([d1, d2, d3]).catch(error)
+        // Edge case
+        // Empty Promise array
+        // Promise array containing non-promises
+        const dummyAPI = (delay) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if(delay === -1){
+                        reject("negative delay not allowed")
+                    }else{
+                        resolve(delay);
+                    }
+                }, delay * 1000)
+            })
+        }
+
+
+        let promiseArray = [2, dummyAPI(3), dummyAPI(1)];
+
+        Promise.myRunAll = function (promises){
+            if (!Array.isArray(promises)) {
+                return Promise.reject(new TypeError("Argument must be an array"));
+            }
+            let res = new Array(promises.length);
+            let count = 0;
+            return new Promise((resolve, reject) => {
+                if(promises.length === 0){
+                    return resolve([]);
+                }
+                promises.forEach((pr, index) => {
+                    // every element inside promises might not be a promise
+                    // so wrap it in one before using .then
+                    Promise.resolve(pr).then(value => {
+                        res[index] = value;
+                        count++;
+                        if(count === promises.length){
+                            resolve(res);
+                        }
+                    }).catch(reject)
+                })
+            })
+        }
+
+        Promise.myRunAll(promiseArray).then(x => console.log(x))
+        Promise.myRunAll([]).then(x => console.log(x))
+        
+
+    </script>
+
+</body>
+</html>
