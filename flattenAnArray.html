@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let question = [
+        1,
+        2,
+        3,
+        [4, 5, 6],
+        [7, 8, [9, 10, 11], 12],
+        [13, 14, 15],
+      ];
+
+      function flatten(arr) {
+        let ans = [];
+        arr.forEach((ele) => {
+          if (Array.isArray(ele)) {
+            ans = [...ans, ...flatten(ele)] // in this case a new ans = [] is created for every recursive call
+            // so each instance is solving a subproblem from scratch
+          } else {
+            ans.push(ele);
+          }
+        });
+        return ans;
+      }
+
+      function helper(ele, res){
+        if(!Array.isArray(ele)){
+            res.push(ele); //ordeR?
+            return;
+        }
+        for(const x of ele){
+            if(Array.isArray(x)){
+                helper(x, res); 
+            }else{
+                res.push(x);
+            }
+        }
+      }
+
+      function flattenRecursive(arr){
+        const ans = [];
+        helper(arr, ans);
+        return ans
+      }
+
+      const flattenUsingReduce = (arr) => {
+        let init = [];
+        return arr.reduce((acc, curr) => {
+            if(Array.isArray(curr)){
+                acc = acc.concat(flattenUsingReduce(curr))
+            }else{
+                acc.push(curr);
+            }
+            return acc;
+
+        }, init)
+      }
+      const value = flattenRecursive(question);
+      console.log(value);
+    </script>
+  </body>
+</html>

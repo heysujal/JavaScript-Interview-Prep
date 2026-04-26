@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let target = {
+            id: 1,
+            user: {
+                name: "Sujal",
+                address: {
+                city: "Delhi",
+                coords: [28.61, 77.23],
+                },
+                hobbies: [],
+                skills: {},
+            },
+            tags: ["dev", "frontend"],
+            age: undefined,
+            meta: null,
+        };
+
+        function helper(obj, path, ans){
+            if(obj === null || typeof obj !== 'object'){
+                // primitive values => save it
+                ans[path] = obj;
+                return; 
+            }
+
+            if(Array.isArray(obj)){
+                const len = obj.length;
+                if(len === 0){
+                    ans[path] = [];
+                    return;
+                }
+                obj.forEach((x, i) => {
+                    const newPath = path === "" ? i : `${path}.${i}`;
+                    helper(x, newPath, ans);
+                })
+            }else{
+                const len = Object.keys(obj).length;
+                if(len === 0){
+                    ans[path] = {};
+                    return;
+                }
+                Object.entries(obj).forEach(([key, value]) => {
+                    const newPath = path === "" ? `${key}` : `${path}.${key}`;
+                    helper(value, newPath, ans);
+                })
+            }
+        }
+
+        function flattenObject(obj){
+            let ans = {};
+            let path = "";
+            helper(obj, path, ans);
+            return ans;
+        }
+
+        console.log(flattenObject(target))
+    </script>
+</body>
+</html>
