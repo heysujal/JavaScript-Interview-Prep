@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="rootA">
+        <div>  
+            <div>
+                <div></div>
+                <div>
+                    <div></div>
+                    <div>
+                        <div id="nodeA">Node A Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div></div>
+    </div>
+    <div id="rootB">
+        <div>
+            <div>
+                <div></div>
+                <div>
+                    <div></div>
+                    <div>
+                        <div>I am node B value. Grab Me.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div></div>
+    </div>
+
+    <script>
+
+        const rootA = document.querySelector("#rootA")
+        const rootB = document.querySelector("#rootB")
+        const nodeA = document.querySelector("#nodeA")
+
+        const findBValue = () => {
+            const childToParentPath = getChildToParentPath(nodeA, rootA);
+            const nodeB = fetchByParentToChild(childToParentPath, rootB);
+            console.log(nodeB.innerText)
+            return nodeB.innerText;
+        }
+
+
+        function getChildToParentPath(child, parent){
+            // this is storing path ffrom child to parent
+            const pathArray = [];   // [0, 1, 1, 0, 0]
+            let current = child;
+            while(current !== parent){
+                const parentElement = current.parentElement;
+                const childrenArray = Array.from(parentElement.children); //impt.
+                const idx = childrenArray.indexOf(current); //index at which current node lies
+                pathArray.push(idx);
+                current = parentElement; // move to parent
+            }
+            return pathArray;
+        }
+
+
+        function fetchByParentToChild (childToParentPath, parentNode) {
+
+            while(childToParentPath.length){
+                let idx = childToParentPath.pop();
+                parentNode = parentNode.children[idx];
+            }
+            
+            return parentNode;
+        }
+
+
+        findBValue();
+    </script>
+</body>
+
+</html>
