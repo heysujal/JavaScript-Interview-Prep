@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        const name = "Hi 1 I am Sujal";
+        String.prototype.mySplit = function(delimiter){
+            let str = this.toString(); // converting Stirng object to primitive string
+            if(typeof delimiter !== 'string'){
+                return [str];
+            }
+            if(delimiter === ""){
+                return [...str]
+            }
+            let result = [];
+
+            while (str.length){
+                const idx = str.indexOf(delimiter);
+                console.log(idx)
+                if(idx >= 0){
+                    let ele = str.slice(0, idx);
+                    console.log({ele})
+                    result.push(ele);
+                    let i = idx + delimiter.length;
+                    str = str.slice(i);
+                }else{
+                    // not found the delimiter
+                    result.push(str);
+                    break;
+                }
+            }
+            return result;
+        }
+
+        console.log(name.mySplit())
+        console.log("The quick the fox jumps the lazy the dog".mySplit('the'))
+    </script>
+</body>
+</html>
