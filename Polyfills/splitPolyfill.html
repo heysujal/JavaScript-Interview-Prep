@@ -10,26 +10,24 @@
 
         const name = "Hi 1 I am Sujal";
         String.prototype.mySplit = function(delimiter){
-            let str = this.toString(); // converting Stirng object to primitive string
-            if(typeof delimiter !== 'string'){
+            // const str = this.toString(); // converting object to string
+            let str = this.toString();
+            if(delimiter === undefined){
                 return [str];
             }
+            delimiter = String(delimiter);
             if(delimiter === ""){
-                return [...str]
+                return [...str];
             }
             let result = [];
-
-            while (str.length){
-                const idx = str.indexOf(delimiter);
-                console.log(idx)
+            while(true){
+                let idx = str.indexOf(delimiter);
                 if(idx >= 0){
                     let ele = str.slice(0, idx);
-                    console.log({ele})
                     result.push(ele);
-                    let i = idx + delimiter.length;
-                    str = str.slice(i);
+                    str = str.slice(idx + delimiter.length)
                 }else{
-                    // not found the delimiter
+                    // delimiter not found
                     result.push(str);
                     break;
                 }
