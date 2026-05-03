@@ -35,6 +35,30 @@
             return result;
         }
 
+
+        const split = function(str, delimiter){
+            if(delimiter === undefined) return [str];
+            delimiter = String(delimiter)
+            if(delimiter === '') {
+                return [...str]
+            }
+            let result = [];
+            const startSplit = (s) => {
+                let idx = s.indexOf(delimiter);
+                if(idx >= 0){
+                    let ele = s.slice(0, idx);
+                    result.push(ele);
+                    startSplit(s.slice(idx + delimiter.length))
+                }else{
+                    result.push(s);
+                }
+            }
+
+            startSplit(str);
+            return result;
+        }
+
+        console.log(split("The quick the fox jumps the lazy the dog", "the"))
         console.log(name.mySplit())
         console.log("The quick the fox jumps the lazy the dog".mySplit('the'))
     </script>
