@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const ARGS_LEN = 5;
+      const sum = (...args) => {
+        if (args.length === ARGS_LEN) {
+          return args.reduce((acc, curr) => {
+            return (acc = acc + curr);
+          }, 0);
+        } else {
+          const recursiveFn = (...args2) => {
+            args = args.concat(args2);
+            if (args.length === ARGS_LEN) {
+              return args.reduce((acc, curr) => {
+                return (acc = acc + curr);
+              }, 0);
+            } else {
+              return recursiveFn;
+            }
+          };
+
+          return recursiveFn;
+        }
+      };
+
+      const sumNonRecursive = (...collected) => {
+        const fn = (...newArgs) =>{
+            collected = collected.concat(newArgs);
+            if(collected.length === ARGS_LEN){
+                return collected.slice(0, ARGS_LEN).reduce((acc, curr) => {
+                    return (acc = acc + curr);
+                  }, 0);
+            }
+            return fn;
+        };
+
+        if(collected.length === ARGS_LEN){
+            return collected.slice(0, ARGS_LEN).reduce((acc, curr) => {
+                return (acc = acc + curr);
+                }, 0);
+        }
+
+        return fn;
+      };
+
+      console.log(sum(1, 2, 3, 4, 5));
+      console.log(sum(1, 2, 3, 4)(5));
+      console.log(sum(1, 2, 3)(4)(5));
+
+
+      console.log(sum(1)(2)(3)(4)(5));
+      console.log(sum(1, 2)(3, 4, 5));
+      console.log(sum(1, 2, 3)(4, 5));
+      console.log(sum(1)(2, 3)(4, 5));
+      console.log(sum(1)(2)(3, 4, 5));
+
+            console.log(sumNonRecursive(1, 2, 3, 4, 5));
+      console.log(sumNonRecursive(1, 2, 3, 4)(5));
+      console.log(sumNonRecursive(1, 2, 3)(4)(5));
+
+
+      console.log(sumNonRecursive(1)(2)(3)(4)(5));
+      console.log(sumNonRecursive(1, 2)(3, 4, 5));
+      console.log(sumNonRecursive(1, 2, 3)(4, 5));
+      console.log(sumNonRecursive(1)(2, 3)(4, 5));
+      console.log(sumNonRecursive(1)(2)(3, 4, 5));
+    </script>
+  </body>
+</html>

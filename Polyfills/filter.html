@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // improvement scope => handling sparse arrays and optional thisArg
+        Array.prototype.myFilter = function(callback){
+            let result = [];
+            for(let i = 0; i < this.length; i++){
+                let shouldKeep = callback.call(this, this[i], i, this);
+                if(shouldKeep){
+                    result.push(this[i]);
+                }
+            }
+            return result;
+        }
+
+        console.log([1, 3, 4].myFilter(x => x >= 3))
+
+    </script>
+</body>
+</html>

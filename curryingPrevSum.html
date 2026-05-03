@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let currFn = () => {
+        let sum = 0;
+        return function(num = 0) {
+            sum = sum + num;
+            return sum;
+        }
+      };
+      let sum = currFn();
+      console.log(sum(1))
+      console.log(sum(2))
+
+      console.log(sum(3))
+
+      console.log(sum(4))
+      console.log(sum())
+
+    </script>
+  </body>
+</html>

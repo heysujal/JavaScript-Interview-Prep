@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // a function such that it accpets arguements in form of sum(1)(2)(3)
+        const ARGS_LEN = 5
+        const curryAndSum = (...args) => {
+            if (args.length === ARGS_LEN) return args.reduce((initialValue, currentValue) => initialValue+currentValue, 0)
+            else {
+                const recursiveFn = (...args2) => {
+                    args = args.concat(args2)
+                    if (args.length === ARGS_LEN) return args.reduce((initialValue, currentValue) => initialValue+currentValue, 0)
+                    else return recursiveFn
+                }
+                return recursiveFn
+            }
+        }
+
+        console.log(curryAndSum(1, 2, 3, 4, 5))
+        console.log(curryAndSum(1, 2, 3, 4)(5))
+        console.log(curryAndSum(1)(2)(3)(4)(5))
+        console.log(curryAndSum(1, 2, 3)(4, 5))
+        console.log(curryAndSum(1, 2)(3, 4, 5))
+        console.log(curryAndSum(1)(2, 3, 4, 5))
+
+
+    </script>
+</body>
+</html>
