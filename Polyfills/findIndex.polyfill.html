@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+// https://www.youtube.com/watch?v=BkfDqMtq0z0&list=PLe3J6mZBq1xUWVBMpSR2zpp8paWMJQ91b&index=18
+
+            Array.prototype.myFindIndex = function(callback, fromIndex = 0){
+                let startIdx = fromIndex >=0 ? fromIndex : this.length + fromIndex;
+                for(let i = startIdx ; i < this.length; i++){
+                    if(callback(this[i], i, this)){
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            let id = [0, 1, 2, 3, 5].myFindIndex(x => x >= 2)
+            console.log(id)
+    </script>
+</body>
+</html>
