@@ -30,7 +30,7 @@
 
                 let settled = false;
                 let errCount = 0;
-                let errors = [];
+                let errors = Array.from({ length: promiseArr.length });
 
                 promiseArr.forEach((p, idx) => {
                     Promise.resolve(p)
