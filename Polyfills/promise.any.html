@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise.myAny</title>
+</head>
+<body>
+    <script>
+        const dummyAPI = (delay) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (delay < 0) {
+                        reject("negative delay not allowed");
+                    } else {
+                        resolve(delay);
+                    }
+                }, Math.abs(delay) * 1000);
+            });
+        };
+
+        Promise.myAny = function(promiseArr) {
+            return new Promise((resolve, reject) => {
+                if (!Array.isArray(promiseArr)) {
+                    return reject(new TypeError("not an array"));
+                }
+                if (promiseArr.length === 0) {
+                    return reject(new AggregateError([], "All promises were rejected"));
+                }
+
+                let settled = false;
+                let errCount = 0;
+                let errors = [];
+
+                promiseArr.forEach((p, idx) => {
+                    Promise.resolve(p)
+                        .then(x => {
+                            if (settled) return;
+                            settled = true;
+                            resolve(x);
+                        })
+                        .catch(err => {
+                            if (settled) return;
+                            errCount++;
+                            errors[idx] = err;
+                            if (errCount === promiseArr.length) {
+                                reject(new AggregateError(errors, "All promises were rejected"));
+                            }
+                        });
+                });
+            });
+        };
+
+        // Test 1: all reject
+        Promise.myAny([dummyAPI(-5), dummyAPI(-3), dummyAPI(-1)])
+            .then(x => console.log("Test 1 resolved:", x))
+            .catch(e => console.log("Test 1 rejected (expected):", e.message, e.errors));
+
+        // Test 2: mixed — should resolve with first fulfilled
+        Promise.myAny([dummyAPI(-1), dummyAPI(1), dummyAPI(2)])
+            .then(x => console.log("Test 2 resolved (expected):", x))
+            .catch(e => console.log("Test 2 rejected:", e.message));
+
+        // Test 3: empty array
+        Promise.myAny([])
+            .then(x => console.log("Test 3 resolved:", x))
+            .catch(e => console.log("Test 3 rejected (expected):", e.message));
+
+        // Test 4: non-array input
+        Promise.myAny("not an array")
+            .then(x => console.log("Test 4 resolved:", x))
+            .catch(e => console.log("Test 4 rejected (expected):", e.message));
+
+            
+    </script>
+</body>
+</html>
