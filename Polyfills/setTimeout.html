@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function createSetTimeout(){
+            var timerId = 0;
+            var timerMap = {}; // keeping track of ids to be exectuted
+
+            function setTimeoutPoly(callback, delay, ...args){
+                let id = timerId++;
+                timerMap[id] = true;
+                var start = Date.now();
+
+                function triggerCallback(){
+                    if(!timerMap[id]){
+                        return;
+                    }
+                    if(Date.now() >= start + delay){
+                        callback.apply(this, args);
+                    }else{
+                        requestIdleCallback(triggerCallback)
+                    }
+                }
+
+                requestIdleCallback(triggerCallback);
+                return id;
+            }
+
+            function clearTimeoutPoly(id){
+                if(timerMap[id]){
+                    delete timerMap[id];
+                }
+            }
+
+            return {setTimeoutPoly, clearTimeoutPoly};
+        }
+
+        const {setTimeoutPoly, clearTimeoutPoly} = createSetTimeout();
+        const id = setTimeoutPoly(() => {
+            console.log("Should be logged after 2s")
+        }, 2000)
+                const id2 = setTimeoutPoly(() => {
+            console.log("Should be logged after 2sss")
+        }, 2000)
+        console.log(id, id2);
+    </script>
+</body>
+</html>
